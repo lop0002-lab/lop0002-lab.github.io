@@ -1,1 +1,9 @@
-
+p {
+  color: #ff6b9d;
+  background-color: #fff9e6;
+  font-size: 18px;
+  padding: 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+}
