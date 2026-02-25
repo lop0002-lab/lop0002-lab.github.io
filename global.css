@@ -7,3 +7,37 @@ p {
   font-weight: bold;
   text-align: center;
 }
+
+h1 {
+	color: #eb844a;
+}
+
+h2 {
+	color: #feaf36;
+}
+
+h3 {
+	color: #f1ab83
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #000000;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.floating-shape {
+  position: absolute;
+  pointer-events: none;
+}

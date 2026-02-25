@@ -1,11 +1,73 @@
 <html>
   <head>
-    <link rel="icon" type="image/png" href="Media_Tracker.png">
+    <link rel="icon" type="image/png" href="index_images/Media_Tracker.png">
     <link rel="stylesheet" href="global.css">
-    <title> Media Tracker </title>
+    <title>Media Tracker</title>
   </head>
-  
+
   <body>
-   <p> Social Media is a huge addiction in the world </p>
+    <!-- Background layer -->
+    <div class="background"></div>
+
+    <h1>Social Media is a huge addiction in the world</h1>
+	<h2> Anusha is reading a comic book (manga)</h2>
+	<h3> Jonathan Blyth is good at areodynamics</h3>
+
+    <script>
+  const images = [
+    'index_background/Square_1.png',
+    'index_background/Square_2.png',
+    'index_background/Square_3.png'
+  ];
+
+  const background = document.querySelector('.background');
+  const placed = [];
+  const targetCount = Math.floor(Math.random() * 4) + 5; // random between 5 and 8
+
+  function overlaps(x, y, size) {
+    for (const p of placed) {
+      const dx = x - p.x;
+      const dy = y - p.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance < (size + p.size) / 6) return true;
+    }
+    return false;
+  }
+
+  let count = 0;
+  let attempts = 0;
+
+  while (count < targetCount && attempts < 1000) {
+    attempts++;
+
+    const size = Math.random() * 80 + 50;
+    const x = Math.random() * 90;
+    const y = Math.random() * 90;
+
+    if (overlaps(x, y, size)) continue;
+
+    placed.push({ x, y, size });
+
+    const img = document.createElement('img');
+    img.src = images[Math.floor(Math.random() * images.length)];
+    img.classList.add('floating-shape');
+
+    const angle = Math.random() * 360;
+    const opacity = Math.random() * 0.5 + 0.4;
+
+    img.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      left: ${x}%;
+      top: ${y}%;
+      transform: rotate(${angle}deg);
+      opacity: ${opacity};
+      mix-blend-mode: screen;
+    `;
+
+    background.appendChild(img);
+    count++;
+  }
+</script>
   </body>
 </html>
