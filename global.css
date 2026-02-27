@@ -12,6 +12,10 @@ h1 {
 	color: #eb844a;
 }
 
+a {
+	color: #eb844a;
+}
+
 h2 {
 	color: #feaf36;
 }
@@ -40,4 +44,5 @@ body {
 .floating-shape {
   position: absolute;
   pointer-events: none;
+
 }
