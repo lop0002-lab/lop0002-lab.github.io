@@ -12,11 +12,6 @@ h1 {
 	color: #eb844a;
 }
 
-a {
-	color: #eb844a;
-	font-size: 28px;
-}
-
 h2 {
 	color: #feaf36;
 }
@@ -29,8 +24,6 @@ body {
   margin: 0;
   padding: 0;
   background-color: #000000;
-  min-height: 100vh;
-  overflow: hidden;
 }
 
 .background {
@@ -45,6 +38,4 @@ body {
 .floating-shape {
   position: absolute;
   pointer-events: none;
-
 }
-
