@@ -244,6 +244,50 @@
     }
   });
 </script>
+<div class="box"> 
+	<h3> Country -Addiction Score (over 10 participants) </h3>
+	<p> insert sample text </p>
+	<canvas id="countryaddictionscore"> </canvas>
+</div> 
+<script> 
+const data2=['5.3', '7.5', '6.7', '6.1', '4.3', '5.1', '3.9', '7.5', '6.4', '6.4', '3.5', '6.7', '7.4', '6.6', '7.4', '6.5', '6.4', '5.8', '7.3', '5.8', '4.3', '7.3', '7.2', '8.6'] 
+const xlabels=['Australia', 'Bangladesh', 'Canada', 'China', 'Denmark', 'France', 'Germany', 'India', 'Ireland', 'Italy', 'Japan', 'Maldives', 'Mexico', 'Nepal', 'Pakistan', 'Poland', 'Russia', 'South Korea', 'Spain', 'Sri Lanka', 'Switzerland', 'Turkey', 'UK', 'USA']
+	const barcolors = ['#22B37B', '#B37722', '#96B322', '#9DB322', '#22B38F','2CB322','22A5B3','#B37722','#91B322','#91B322','#226DB3','#96B322', '#94B322','#61b322','#94B322','#66B322','#55B322','#B39B22','#55B322','#22B38F','#B3A722','#A4B322','B34D22'];
+
+
+	new Chart('countryaddictionscore', {type: 'bar', // vertical bars (no indexAxis flip this time)
+
+    data: {
+      labels: xlabels,        // x axis: Never, Rarely, Sometimes, Often, Always
+      datasets: [{
+        data: data2,    // y axis: the counts we calculated above
+        backgroundColor: barcolors,
+        borderRadius: 8,     // rounded bar tops
+        borderWidth: 0.05,      
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+
+      scales: {
+        x: {
+          ticks: { color: '#888' },
+          grid:  { display: false }, // hide vertical grid lines — cleaner look
+        },
+        y: {
+          ticks: { color: '#888' },
+          grid:  { color: '#2e2e2e' }, // subtle horizontal grid lines
+        }
+      },
+
+      plugins: {
+        legend: { display: false } // no legend — bars are self-labelled on x axis
+      }
+    }
+  });
+
+</script>
   </body>
 </html>
 
