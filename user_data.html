@@ -270,21 +270,21 @@ const xlabels=['Australia', 'Bangladesh', 'Canada', 'China', 'Denmark', 'France'
     },
     options: {
       responsive: true,
-      maintainAspectRatio: false,
+      maintainAspectRatio: true,
 
       scales: {
         x: {
           ticks: { color: '#888' },
-          grid:  { display: false }, // hide vertical grid lines — cleaner look
+          grid:  { display: true }, 
         },
         y: {
           ticks: { color: '#888' },
-          grid:  { color: '#2e2e2e' }, // subtle horizontal grid lines
+          grid:  { color: '#2e2e2e' }, 
         }
       },
 
       plugins: {
-        legend: { display: false } // no legend — bars are self-labelled on x axis
+        legend: { display: false } 
       }
     }
   });
