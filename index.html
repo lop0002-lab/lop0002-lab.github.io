@@ -1,208 +1,221 @@
-<html>
-  <head>
-    <link rel="icon" type="image/png" href="index_images/Media_Tracker.png">
-    <link rel="stylesheet" href="global.css">
-    <title>Media Tracker</title>
-	
-	<div class="header" id="myHeader">
-		<h2 class="center-text">Social Media Addiction </h2>
-	</div>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<style>
-/* width */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1; 
-}
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888; 
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555; 
-}
-/*Center text function */
-.center-text {
-    text-align: center; /* Centers inline text inside the element */
-}  </style>
-  </head>
-
-  <body>
-
-   <a href="usage_data.html" class="usage">Usage Data</a> 
-   <style>
-   .usage {
-       text-decoration: none; /* turning it into button and eviscerate the underline */
-       background-color: rgba(251, 191, 36, 0.6);
-       color: white;
-       padding: 10px 20px;
-       border-radius: 8px;
-       display: inline-block;
-       font-weight: bold; /* positioning of the thing and the style of text */
-       position: absolute; 
-       top: 20px;
-       left:20px; 
-   }
-   .usage:hover {
-       color: #fff;
-   }
-   </style>
-
-	 <a href="user_data.html" class="user"> User Data </a> 
-	<style>
-	.user {
-       text-decoration: none; /* turning it into button and eviscerate the underline */
-       background-color: rgba(251, 191, 36, 0.6);
-       color: white;
-       padding: 10px 20px;
-       border-radius: 8px;
-       display: inline-block;
-       font-weight: bold; /* positioning of the thing and the style of text */
-       position: absolute; 
-       top: 20px;
-       left:200px; 
-	.user:hover {
-       color:#fff;
-    } 	   
-	   </style>
-	
-    <div class="background"></div>
-
-    <h1>Social Media is a huge addiction in the world</h1>
-	<h2> Anusha is reading a comic book (manga)</h2>
-	<h3> Jonathan Blyth is good at areodynamics</h3>
-
- <script>
-  const images = [
-    'index_background/Square_1.png',
-    'index_background/Square_2.png',
-    'index_background/Square_3.png'
-  ];
-
-  const background = document.querySelector('.background');
-  const placed = [];
-  const targetCount = Math.floor(Math.random() * 4) + 5; // random between 5 and 8
-
-  function overlaps(x, y, size) {
-    for (const p of placed) {
-      const dx = x - p.x;
-      const dy = y - p.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      if (distance < (size + p.size) / 6) return true;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="index_images/Media_Tracker.png">
+  <link rel="stylesheet" href="global.css">
+  <link rel="stylesheet" href="social_popups.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <title>Media Tracker — Social Media Addiction</title>
+  <style>
+    :root {
+      --orange:        #eb844a;
+      --orange-dark:   #ce7400;
+      --orange-deep:   #c46a2a;
+      --orange-pale:   #f1ab83;
+      --bg:            #090909;
+      --surface:       #101010;
+      --border:        rgba(235,132,74,0.14);
+      --border-bright: rgba(235,132,74,0.35);
+      --text:          #e2d9cf;
+      --muted:         #5a534d;
     }
-    return false;
-  }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    ::-webkit-scrollbar{width:6px}
+    ::-webkit-scrollbar-track{background:var(--bg)}
+    ::-webkit-scrollbar-thumb{background:var(--orange-dark);border-radius:3px}
+    html,body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-height:100vh;overflow-x:hidden}
 
-  let count = 0;
-  let attempts = 0;
+    .background{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 10% 20%,rgba(206,116,0,0.07) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 90% 80%,rgba(196,106,42,0.05) 0%,transparent 60%),#090909}
+    .floating-shape{position:absolute;pointer-events:none}
 
-  while (count < targetCount && attempts < 1000) {
-    attempts++;
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:flex-end;align-items:center;background:rgba(9,9,9,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 8px}
+    nav a{color:#666;padding:16px 18px;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:0.4px;transition:color 0.2s;display:block}
+    nav a:hover{color:var(--orange)}
+    nav a.active{color:white;background:rgba(235,132,74,0.12);border-bottom:2px solid var(--orange)}
 
-    const size = Math.random() * 80 + 50;
-    const x = Math.random() * 90;
-    const y = Math.random() * 90;
+    .page{position:relative;z-index:1;padding-top:64px}
 
-    if (overlaps(x, y, size)) continue;
+    /* HERO */
+    .hero{min-height:calc(100vh - 64px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 32px 60px;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+    .hero::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:700px;height:1px;background:linear-gradient(90deg,transparent,var(--orange-dark),transparent)}
+    .hero-bg-num{position:absolute;font-family:'Bebas Neue',sans-serif;font-size:clamp(200px,30vw,420px);color:rgba(235,132,74,0.03);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;letter-spacing:-10px;user-select:none}
+    .hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:10px;font-weight:700;letter-spacing:4px;color:var(--orange-dark);text-transform:uppercase;margin-bottom:28px;padding:6px 16px;border:1px solid rgba(206,116,0,0.3);border-radius:30px;animation:fadeUp 0.6s ease both}
+    .hero-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--orange-dark);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+    .hero-logo{width:clamp(80px,12vw,120px);height:clamp(80px,12vw,120px);object-fit:contain;margin-bottom:20px;animation:fadeUp 0.6s 0.05s ease both;filter:drop-shadow(0 0 30px rgba(235,132,74,0.3))}
+    .hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(60px,11vw,130px);line-height:0.88;letter-spacing:3px;color:white;margin-bottom:8px;animation:fadeUp 0.6s 0.1s ease both}
+    .hero h1 em{font-style:normal;color:var(--orange);display:block}
+    .hero-sub{font-size:16px;color:var(--muted);font-weight:300;max-width:480px;line-height:1.8;margin:20px auto 40px;animation:fadeUp 0.6s 0.15s ease both}
+    .hero-buttons{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp 0.6s 0.2s ease both}
+    .btn-primary{background:var(--orange-dark);color:white;border:none;border-radius:10px;padding:14px 28px;font-size:14px;font-weight:600;font-family:'Outfit',sans-serif;cursor:pointer;text-decoration:none;display:inline-block;transition:background 0.2s,transform 0.15s;letter-spacing:0.3px}
+    .btn-primary:hover{background:var(--orange);transform:translateY(-2px)}
+    .btn-ghost{background:transparent;color:var(--orange-pale);border:1px solid var(--border-bright);border-radius:10px;padding:14px 28px;font-size:14px;font-weight:600;font-family:'Outfit',sans-serif;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color 0.2s,color 0.2s,transform 0.15s}
+    .btn-ghost:hover{border-color:var(--orange);color:var(--orange);transform:translateY(-2px)}
+    .hero-stats{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-top:52px;animation:fadeUp 0.6s 0.25s ease both}
+    .hero-stat{display:flex;flex-direction:column;align-items:center;gap:4px}
+    .hero-stat-num{font-family:'Bebas Neue',sans-serif;font-size:38px;color:var(--orange);line-height:1;letter-spacing:1px}
+    .hero-stat-lbl{font-size:10px;color:var(--muted);font-weight:600;letter-spacing:2px;text-transform:uppercase}
+    .hero-stat-div{width:1px;height:40px;background:var(--border);align-self:center}
 
-    placed.push({ x, y, size });
+    /* EXPLORE */
+    .explore{max-width:1040px;margin:0 auto;padding:100px 40px}
+    .explore-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px;flex-wrap:wrap;gap:20px}
+    .explore-tag{font-size:10px;font-weight:700;letter-spacing:4px;color:var(--orange-dark);text-transform:uppercase;display:block;margin-bottom:10px}
+    .explore-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,6vw,64px);letter-spacing:2px;color:white;line-height:1}
+    .explore-desc{font-size:13px;color:var(--muted);font-weight:300;line-height:1.8;max-width:300px;text-align:right}
 
-    const img = document.createElement('img');
-    img.src = images[Math.floor(Math.random() * images.length)];
-    img.classList.add('floating-shape');
+    .platform-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 
-    const angle = Math.random() * 360;
-    const opacity = Math.random() * 0.5 + 0.4;
+    .platform-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:24px 20px 20px;cursor:pointer;transition:border-color 0.25s,transform 0.2s,background 0.2s;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;animation:fadeUp 0.5s ease both}
+    .platform-card::before{content:'';position:absolute;top:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,var(--border-bright),transparent);opacity:0;transition:opacity 0.3s}
+    .platform-card:hover{border-color:var(--orange-dark);transform:translateY(-5px);background:#141414}
+    .platform-card:hover::before{opacity:1}
 
-    img.style.cssText = `
-      width: ${size}px;
-      height: ${size}px;
-      left: ${x}%;
-      top: ${y}%;
-      transform: rotate(${angle}deg);
-      opacity: ${opacity};
-      mix-blend-mode: screen;
-    `;
+    .platform-icon{width:68px;height:68px;border-radius:50%;object-fit:cover;border:2px solid transparent;transition:border-color 0.25s,transform 0.2s}
+    .platform-card:hover .platform-icon{border-color:var(--orange-dark);transform:scale(1.08)}
 
-    background.appendChild(img);
-    count++;
-  }
+    .platform-name{font-size:13px;font-weight:600;color:var(--text);letter-spacing:0.3px}
+    .platform-meta{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+    .platform-pill{font-size:9px;font-weight:700;letter-spacing:0.5px;padding:3px 8px;border-radius:20px;text-transform:uppercase}
+    .pill-hours{background:rgba(235,132,74,0.12);color:var(--orange)}
+    .pill-users{background:rgba(206,116,0,0.1);color:var(--orange-dark)}
+    .platform-arrow{font-size:11px;color:var(--muted);transition:color 0.2s,transform 0.2s;margin-top:auto}
+    .platform-card:hover .platform-arrow{color:var(--orange);transform:translateX(3px)}
+
+    /* stagger */
+    .platform-card:nth-child(1){animation-delay:.05s}.platform-card:nth-child(2){animation-delay:.08s}.platform-card:nth-child(3){animation-delay:.11s}.platform-card:nth-child(4){animation-delay:.14s}.platform-card:nth-child(5){animation-delay:.17s}.platform-card:nth-child(6){animation-delay:.20s}.platform-card:nth-child(7){animation-delay:.23s}.platform-card:nth-child(8){animation-delay:.26s}.platform-card:nth-child(9){animation-delay:.29s}.platform-card:nth-child(10){animation-delay:.32s}.platform-card:nth-child(11){animation-delay:.35s}.platform-card:nth-child(12){animation-delay:.38s}
+
+    /* POPUP */
+    .social-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);z-index:500;opacity:0;visibility:hidden;transition:opacity 0.25s,visibility 0.25s}
+    .social-overlay.active{opacity:1;visibility:visible}
+    .social-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.92);width:72vw;height:76vh;background:#0d0d0d;border:1px solid var(--border-bright);border-radius:18px;overflow:hidden;z-index:600;opacity:0;visibility:hidden;transition:all 0.28s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 40px 100px rgba(0,0,0,0.7)}
+    .social-popup.active{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
+    .popup-close{position:absolute;top:14px;right:16px;background:rgba(235,132,74,0.15);border:1px solid rgba(235,132,74,0.3);color:var(--orange);width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;transition:background 0.2s;line-height:1}
+    .popup-close:hover{background:rgba(235,132,74,0.3)}
+    .popup-content{width:100%;height:100%}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="active">Home</a>
+  <a href="usage_data.html">Usage</a>
+  <a href="user_data.html">Users</a>
+  <a href="#about">About</a>
+</nav>
+
+<div class="background" id="bgwrap"></div>
+
+<script>
+  const bgImgs=['index_background/Square_1.png','index_background/Square_2.png','index_background/Square_3.png'];
+  const bgEl=document.getElementById('bgwrap');
+  const placed=[];const n=Math.floor(Math.random()*4)+5;
+  function overlaps(x,y,s){return placed.some(p=>Math.hypot(x-p.x,y-p.y)<(s+p.s)/6);}
+  let c=0,a=0;
+  while(c<n&&a<1000){a++;const s=Math.random()*80+50,x=Math.random()*90,y=Math.random()*90;if(overlaps(x,y,s))continue;placed.push({x,y,s});const img=document.createElement('img');img.src=bgImgs[Math.floor(Math.random()*3)];img.className='floating-shape';img.style.cssText=`width:${s}px;height:${s}px;left:${x}%;top:${y}%;transform:rotate(${Math.random()*360}deg);opacity:${Math.random()*0.35+0.15};mix-blend-mode:screen;`;bgEl.appendChild(img);c++;}
 </script>
 
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
-<p> hi my name is daniel vincze</p>
+<div class="page">
 
-  </body>
+  <section class="hero">
+    <div class="hero-bg-num">4.8H</div>
+    <div class="hero-tag">Student Wellbeing Research &middot; 2024</div>
+    <img src="index_images/Media_Tracker.png" alt="Media Tracker" class="hero-logo">
+    <h1>Social Media<em>Addiction</em></h1>
+    <p class="hero-sub">A data-driven study into how social media platforms affect students&rsquo; sleep, mental health, academic performance and daily habits.</p>
+    <div class="hero-buttons">
+      <a href="usage_data.html" class="btn-primary">View Usage Data</a>
+      <a href="user_data.html"  class="btn-ghost">User Insights</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="hero-stat-num">482</span><span class="hero-stat-lbl">Students Surveyed</span></div>
+      <div class="hero-stat-div"></div>
+      <div class="hero-stat"><span class="hero-stat-num">12</span><span class="hero-stat-lbl">Platforms Analysed</span></div>
+      <div class="hero-stat-div"></div>
+      <div class="hero-stat"><span class="hero-stat-num">4.8H</span><span class="hero-stat-lbl">Avg Daily Usage</span></div>
+      <div class="hero-stat-div"></div>
+      <div class="hero-stat"><span class="hero-stat-num">6.1H</span><span class="hero-stat-lbl">Avg Sleep</span></div>
+    </div>
+  </section>
+
+  <section class="explore">
+    <div class="explore-header">
+      <div>
+        <span class="explore-tag">Platform Explorer</span>
+        <h2 class="explore-title">Explore</h2>
+      </div>
+      <p class="explore-desc">Click any platform to see its data &mdash; usage hours, academic impact, sleep averages and addiction scores.</p>
+    </div>
+
+    <div class="platform-grid">
+      <div class="platform-card" data-social="tiktok"><img src="Index_Socials/tiktok.png" class="platform-icon" alt="TikTok"><span class="platform-name">TikTok</span><div class="platform-meta"><span class="platform-pill pill-hours">4.91h/day</span><span class="platform-pill pill-users">1.6B users</span></div><span class="platform-arrow">Tap to explore &rarr;</span></div>
+      <div class="platform-card" data-social="youtube"><img src="Index_Socials/youtube.png" class="platform-icon" alt="YouTube"><span class="platform-name">YouTube</span><div class="platform-meta"><span class="platform-pill pill-hours">4.08h/day</span><span class="platform-pill pill-users">2.53B users</span></div><span class="platform-arrow">Tap to explore &rarr;</span></div>
+      <div class="platform-card" data-social="instagram"><img src="Index_Socials/instagram.png" class="platform-icon" alt="Instagram"><span class="platform-name">Instagram</span><div class="platform-meta"><span class="platform-pill pill-hours">4.72h/day</span><span class="platform-pill pill-users">3B users</span></div><span class="platform-arrow">Tap to explore &rarr;</span></div>
+      <div class="platform-card" data-social="whatsapp"><img src="Index_Socials/whatsapp.png" class="platform-icon" alt="WhatsApp"><span class="platform-name">WhatsApp</span><div class="platform-meta"><span class="platform-pill pill-hours">5.35h/day</span><span class="platform-pill pill-users">3B users</span></div><span class="platform-arrow">Tap to explore &rarr;</span></div>
+      <div class="platform-card" data-social="facebook"><img src="Index_Socials/facebook.png" class="platform-icon" alt="Facebook"><span class="platform-name">Facebook</span><div class="platform-meta"><span class="platform-pill pill-hours">4.5h/day</span><span class="platform-pill pill-users">3.07B users</span></div><span class="platform-arrow">Tap to explore &rarr;</span></div>
+      <div class="platform-card" data-social="snapchat"><img src="Index_Socials/snapchat.png" class="platform-icon" alt="Snapchat"><span class="platform-name">Snapchat</span><div class="platform-meta"><span class="platform-pill pill-hours">5.09h/day</span><span class="platform-pill pill-users">709M users</span></div><span class="platform-arrow">Tap to explore &rarr;</span></div>
+      <div class="platform-card" data-social="x"><img src="Index_Socials/x.png" class="platform-icon" alt="X"><span class="platform-name">X / Twitter</span><div class="platform-meta"><span class="platform-pill pill-hours">4.87h/day</span><span class="platform-pill pill-users">557M users</span></div><span class="platform-arrow">Tap to explore &rarr;</span></div>
+      <div class="platform-card" data-social="wechat"><img src="Index_Socials/wechat.png" class="platform-icon" alt="WeChat"><span class="platform-name">WeChat</span><div class="platform-meta"><span class="platform-pill pill-hours">4.96h/day</span><span class="platform-pill pill-users">China</span></div><span class="platform-arrow">Tap to explore &rarr;</span></div>
+      <div class="platform-card" data-social="kakaotalk"><img src="Index_Socials/kakaotalk.png" class="platform-icon" alt="KakaoTalk"><span class="platform-name">KakaoTalk</span><div class="platform-meta"><span class="platform-pill pill-hours">4.72h/day</span><span class="platform-pill pill-users">Korea</span></div><span class="platform-arrow">Tap to explore &rarr;</span></div>
+      <div class="platform-card" data-social="line"><img src="Index_Socials/line.png" class="platform-icon" alt="LINE"><span class="platform-name">LINE</span><div class="platform-meta"><span class="platform-pill pill-hours">3.25h/day</span><span class="platform-pill pill-users">Japan</span></div><span class="platform-arrow">Tap to explore &rarr;</span></div>
+      <div class="platform-card" data-social="vk"><img src="Index_Socials/vk.png" class="platform-icon" alt="VK"><span class="platform-name">VK</span><div class="platform-meta"><span class="platform-pill pill-hours">4.25h/day</span><span class="platform-pill pill-users">E. Europe</span></div><span class="platform-arrow">Tap to explore &rarr;</span></div>
+      <div class="platform-card" data-social="linkedin"><img src="Index_Socials/linkedin.png" class="platform-icon" alt="LinkedIn"><span class="platform-name">LinkedIn</span><div class="platform-meta"><span class="platform-pill pill-hours">2.51h/day</span><span class="platform-pill pill-users">1.15B users</span></div><span class="platform-arrow">Tap to explore &rarr;</span></div>
+    </div>
+  </section>
+
+</div>
+
+<div class="social-overlay" id="socialOverlay"></div>
+<div class="social-popup" id="socialPopup">
+  <button class="popup-close" id="popupClose">&times;</button>
+  <div class="popup-content" id="popupContent"></div>
+</div>
+
+<script>
+const overlay=document.getElementById('socialOverlay');
+const popup=document.getElementById('socialPopup');
+const popupClose=document.getElementById('popupClose');
+const popupContent=document.getElementById('popupContent');
+
+function openPopup(social){
+  let content='';
+  if(social==='instagram'){content=`<div class="ig-popup"><div class="ig-sidebar"><div class="ig-logo">Instagram</div><nav class="ig-nav"><div class="ig-nav-item active">🏠 <span>Home</span></div><div class="ig-nav-item">🔍 <span>Search</span></div><div class="ig-nav-item">🧭 <span>Explore</span></div><div class="ig-nav-item">🎬 <span>Reels</span></div><div class="ig-nav-item">💬 <span>Messages</span></div><div class="ig-nav-item">🔔 <span>Notifications</span></div><div class="ig-nav-item">➕ <span>Create</span></div></nav><div class="ig-profile-row"><div class="ig-avatar sm" style="background:#888"></div><span>you</span></div></div><div class="ig-feed"><div class="ig-stories"><div class="ig-story"><div class="ig-avatar" style="background:#e91e8c"></div><span>obama.b</span></div><div class="ig-story"><div class="ig-avatar" style="background:#3f51b5"></div><span>James</span></div><div class="ig-story"><div class="ig-avatar" style="background:#009688"></div><span>Trip T</span></div><div class="ig-story"><div class="ig-avatar" style="background:#ff5722"></div><span>Selby</span></div></div><div class="ig-post"><div class="ig-post-header"><div class="ig-avatar sm" style="background:#e91e8c"></div><span class="ig-post-user">media_manager</span><span class="ig-post-more">•••</span></div><div class="ig-post-image"><p>One of the most widely used social media sites in the world, Instagram has over 3 billion accounts. The Kaggle data collected suggests that amongst students who used it the most have an average of 4.72 hours of usage per day.</p><p>Among the 250 students whose most used platform was Instagram, 172 out of 250 admitted that it had affected their academic performance. Instagram is known to have an addictive algorithm that hijacks the human nervous system's dopamine response mechanism.</p><p>The mean mental health score is 6.12/10, the addiction score is 6.55 and there is an average of approximately 3 conflicts over social media.</p></div><div class="ig-post-actions"><span>🤍</span><span>💬</span><span>↗</span><span class="ig-bookmark">🔖</span></div><div class="ig-post-likes"><strong>1,204 likes</strong></div><div class="ig-post-caption"><strong>media_manager</strong> Social Media Addiction Study 📱 #research</div></div></div></div>`;}
+  else if(social==='tiktok'){content=`<div class="tt-popup"><div class="tt-sidebar"><div class="tt-logo">TikTok</div><nav class="tt-nav"><div class="tt-nav-item active">🏠 <span>For You</span></div><div class="tt-nav-item">🔍 <span>Explore</span></div><div class="tt-nav-item">➕ <span>Create</span></div><div class="tt-nav-item">💬 <span>Inbox</span></div><div class="tt-nav-item">👤 <span>Profile</span></div></nav></div><div class="tt-feed"><div class="tt-video-card"><div class="tt-video-placeholder"><div class="tt-play-icon">▶</div></div><div class="tt-video-info"><div class="tt-video-user">@media_tracker</div><div class="tt-video-desc">Social media addiction study 📊 #research #socialmedia</div><div class="tt-video-music">🎵 original sound - media_tracker</div></div><div class="tt-video-actions"><div class="tt-action"><div class="tt-action-avatar" style="background:#ff2d55"></div></div><div class="tt-action">❤️<span>142K</span></div><div class="tt-action">💬<span>3.2K</span></div><div class="tt-action">↗<span>Share</span></div></div></div><div class="tt-post-text"><p>With over 1.6 billion users, TikTok is a significant platform. The average hours per day is 4.91 hours, exceeding Instagram. Users have a mental health score of 5.71 and a high addiction score of 7.42.</p><p>142/153 students claimed their academic performance was affected. The average sleep hours is only 6.36 hours, likely due to late-night scrolling.</p></div></div></div>`;}
+  else if(social==='whatsapp'){content=`<div class="wa-popup"><div class="wa-sidebar"><div class="wa-header"><div class="wa-avatar-sm" style="background:#25d366"></div><div class="wa-header-icons">🔍 ⋮</div></div><div class="wa-search"><input placeholder="Search or start new chat" readonly /></div><div class="wa-chats"><div class="wa-chat active"><div class="wa-avatar-sm" style="background:#128c7e"></div><div class="wa-chat-info"><span>Study Group</span><small>You: check this out 👇</small></div></div><div class="wa-chat"><div class="wa-avatar-sm" style="background:#25d366"></div><div class="wa-chat-info"><span>James</span><small>seen ✓✓</small></div></div></div></div><div class="wa-main"><div class="wa-chat-header"><div class="wa-avatar-sm" style="background:#128c7e"></div><div><strong>Study Group</strong><br><small>4 participants</small></div></div><div class="wa-messages"><div class="wa-msg received">Hey, did you see this study about WhatsApp usage? 👀</div><div class="wa-msg-label">Research Note</div><div class="wa-msg sent"><p>WhatsApp has 3 billion active users. The Kaggle directory suggests a mean 5.35 hours use daily — surprisingly high given it lacks a noticeably addictive algorithm.</p><p>All 54 users in the study claim to have their academic performance affected. An average of 5.87 hours of sleep, an extremely high addiction score of 7.46, and approximately 4 conflicts over social media.</p><span class="wa-time">now ✓✓</span></div></div><div class="wa-input-bar"><span>😊</span><input placeholder="Type a message" readonly /><span>🎤</span></div></div></div>`;}
+  else if(social==='facebook'){content=`<div class="fb-popup"><div class="fb-sidebar"><div class="fb-logo">facebook</div><div class="fb-search"><input placeholder="🔍 Search Facebook" readonly /></div><nav class="fb-nav"><div class="fb-nav-item active">🏠 Home</div><div class="fb-nav-item">👥 Friends</div><div class="fb-nav-item">📺 Watch</div><div class="fb-nav-item">🏪 Marketplace</div><div class="fb-nav-item">👾 Gaming</div></nav></div><div class="fb-feed"><div class="fb-post"><div class="fb-post-header"><div class="fb-avatar" style="background:#1877f2"></div><div><div class="fb-post-name">Media Tracker Research</div><div class="fb-post-time">📌 Public · Just now</div></div></div><div class="fb-post-body"><p>Facebook has 3.07 billion active users and Kaggle directory users have an average of 4.5 hours of use. The average user in the Kaggle directory is 21.3 years old.</p><p>37 of the 124 users claim it has an academic effect, with a 7.36 sleep hour average, 6.70 mental health score, 5.60 addiction score and 2 conflicts on social media.</p><p>Facebook may be falling from popularity but its older style seems to be less detrimental than platforms such as Snapchat, Instagram and WhatsApp.</p></div><div class="fb-post-stats">👍 847 · 💬 23 comments · ↗ 12 shares</div><div class="fb-post-actions"><div class="fb-action">👍 Like</div><div class="fb-action">💬 Comment</div><div class="fb-action">↗ Share</div></div></div></div></div>`;}
+  else if(social==='x'){content=`<div class="x-popup"><div class="x-sidebar"><div class="x-logo">𝕏</div><nav class="x-nav"><div class="x-nav-item active">🏠 Home</div><div class="x-nav-item">🔍 Explore</div><div class="x-nav-item">🔔 Notifications</div><div class="x-nav-item">✉️ Messages</div><div class="x-nav-item">🔖 Bookmarks</div><div class="x-nav-item">👤 Profile</div></nav><button class="x-tweet-btn">Post</button></div><div class="x-feed"><div class="x-feed-title">Home</div><div class="x-post"><div class="x-post-avatar" style="background:#1d9bf0"></div><div class="x-post-body"><div class="x-post-meta"><strong>Media Tracker</strong> <span>@media_tracker · now</span></div><p>Twitter has only 557 million users. Of a small sample of maximum users, average usage was 4.87 hours. 11 out of 30 claim an academic effect.</p><p>Maximum users have a mean 7.1 hours of sleep, 6.83 mental health score and 5.68 addiction score. Twitter is also outdated in certain circles and that may influence data accuracy.</p><div class="x-post-actions"><span>💬 11</span><span>🔁 4</span><span>❤️ 30</span><span>📊 2.1K</span></div></div></div></div></div>`;}
+  else if(social==='linkedin'){content=`<div class="li-popup"><div class="li-sidebar"><div class="li-logo">in LinkedIn</div><div class="li-search"><input placeholder="🔍 Search" readonly /></div><nav class="li-nav"><div class="li-nav-item active">🏠 Home</div><div class="li-nav-item">👥 My Network</div><div class="li-nav-item">💼 Jobs</div><div class="li-nav-item">💬 Messaging</div><div class="li-nav-item">🔔 Notifications</div></nav></div><div class="li-feed"><div class="li-post"><div class="li-post-header"><div class="li-avatar" style="background:#0a66c2"></div><div><div class="li-post-name">Media Tracker Research</div><div class="li-post-sub">Academic Data Analyst · 1st · Just now · 🌐</div></div></div><div class="li-post-body"><p>LinkedIn has around 1.15 billion worldwide users yet only 21 in the survey used it most. It has the lowest average usage of 2.51 hours — qualitatively observed to be true.</p><p>Not a single maximum user claimed their academic performance was related to LinkedIn use. Maximum users have 7.28 hours of sleep, an addiction score of 3.8 — exceptionally low — and a mental health score of 8.</p></div><div class="li-post-stats">47 reactions · 8 comments</div><div class="li-post-actions"><div class="li-action">👍 Like</div><div class="li-action">💬 Comment</div><div class="li-action">🔁 Repost</div><div class="li-action">↗ Send</div></div></div></div></div>`;}
+  else if(social==='wechat'){content=`<div class="wc-popup"><div class="wc-sidebar"><div class="wc-logo">💬 WeChat</div><nav class="wc-nav"><div class="wc-nav-item active">💬 Chats</div><div class="wc-nav-item">👥 Contacts</div><div class="wc-nav-item">🔍 Discover</div><div class="wc-nav-item">👤 Me</div></nav><div class="wc-chat-list"><div class="wc-chat-item active"><div class="wc-dot" style="background:#07c160"></div><span>Study Circle</span></div><div class="wc-chat-item"><div class="wc-dot" style="background:#fa9d3b"></div><span>Trip T</span></div><div class="wc-chat-item"><div class="wc-dot" style="background:#1485ee"></div><span>James</span></div></div></div><div class="wc-main"><div class="wc-chat-title">Study Circle</div><div class="wc-messages"><div class="wc-msg received">看到这个研究了吗？(Did you see this research?)</div><div class="wc-msg sent"><p>Although WeChat is used globally, it is especially prevalent in China — the main social media network within the Great Firewall, necessary for access to many services in the country.</p><p>Across maximum users, the average is 4.96 hours. 8 out of the 15 users stated that WeChat impacted their academic performance. Average sleep hours is 7.36, mental health score 6.5 and addiction score 6.1.</p></div></div><div class="wc-input"><span>+</span><input placeholder="WeChat" readonly /><span>🎤</span></div></div></div>`;}
+  else if(social==='kakaotalk'){content=`<div class="kk-popup"><div class="kk-sidebar"><div class="kk-logo">💛 KakaoTalk</div><nav class="kk-nav"><div class="kk-nav-item active">💬 Chats</div><div class="kk-nav-item">👥 Friends</div><div class="kk-nav-item">#️⃣ Channel</div><div class="kk-nav-item">🛒 Shopping</div><div class="kk-nav-item">⋮ More</div></nav><div class="kk-chat-list"><div class="kk-chat-item active"><div class="kk-dot" style="background:#fee500"></div><span>연구 그룹 (Study Group)</span></div><div class="kk-chat-item"><div class="kk-dot" style="background:#f9a825"></div><span>지수</span></div></div></div><div class="kk-main"><div class="kk-chat-title">연구 그룹 (Study Group)</div><div class="kk-messages"><div class="kk-msg received">카카오톡 사용 연구 봤어? (Did you see the KakaoTalk research?)</div><div class="kk-msg sent"><p>A national brand similar to WeChat but for South Korea. Every participant was a 20-year-old female undergraduate from South Korea — showing very little variance.</p><p>Average usage hours is 4.72 hours, and every maximum user admitted to academic effect. However they exhibit an average 7:05 hours of sleep and a 6 mental health and addiction score.</p></div></div><div class="kk-input"><span>+</span><input placeholder="Enter message" readonly /><span>😊</span></div></div></div>`;}
+  else if(social==='line'){content=`<div class="ln-popup"><div class="ln-sidebar"><div class="ln-logo">LINE</div><nav class="ln-nav"><div class="ln-nav-item active">💬 Chats</div><div class="ln-nav-item">📞 Calls</div><div class="ln-nav-item">🏠 Home</div><div class="ln-nav-item">🔔 News</div><div class="ln-nav-item">⚙️ More</div></nav><div class="ln-chat-list"><div class="ln-chat-item active"><div class="ln-dot" style="background:#06c755"></div><span>Research Group</span></div><div class="ln-chat-item"><div class="ln-dot" style="background:#00b900"></div><span>Yuki</span></div></div></div><div class="ln-main"><div class="ln-chat-title">Research Group</div><div class="ln-messages"><div class="ln-msg received">LINEの研究見た？(Did you see the LINE research?)</div><div class="ln-msg sent"><p>A Japanese counterpart to KakaoTalk, LINE was born from the damage to SMS lines caused by an earthquake. LINE is popular in Japan with only a 3.25 hour usage mean.</p><p>All maximum users have a mental health score of 8 and an addiction score of 3. The directory shows an average 8.35 sleeping hours — the highest in this study. This likely reflects Japanese cultural values of self-restraint.</p></div></div><div class="ln-input"><span>😊</span><input placeholder="Type a message" readonly /><span>+</span></div></div></div>`;}
+  else if(social==='vk'){content=`<div class="vk-popup"><div class="vk-sidebar"><div class="vk-logo">VK</div><nav class="vk-nav"><div class="vk-nav-item active">🏠 Feed</div><div class="vk-nav-item">👤 My Profile</div><div class="vk-nav-item">💬 Messages</div><div class="vk-nav-item">🔔 Notifications</div><div class="vk-nav-item">🎵 Music</div><div class="vk-nav-item">👥 Communities</div></nav></div><div class="vk-feed"><div class="vk-post"><div class="vk-post-header"><div class="vk-avatar" style="background:#2787f5"></div><div><div class="vk-post-name">Media Tracker</div><div class="vk-post-time">just now</div></div></div><div class="vk-post-body"><p>Another social media networking service, mainly used in Eastern Europe. VKontakte has an average of 4.25 hours usage among maximum users. Users have a mental health score of 7 and addiction score of 5.</p><p>There is no self-reported impact on academic performance and a sleep hour average of 7.75 hours. VK is similar to LINE, KakaoTalk and WeChat — regional platforms with more disciplined usage patterns than global ones.</p></div><div class="vk-post-actions"><span>👍 Like</span><span>💬 Comment</span><span>↗ Share</span></div></div></div></div>`;}
+  else if(social==='youtube'){content=`<div class="yt-popup"><div class="yt-sidebar"><div class="yt-logo">▶ YouTube</div><nav class="yt-nav"><div class="yt-nav-item active">🏠 Home</div><div class="yt-nav-item">🔥 Shorts</div><div class="yt-nav-item">📺 Subscriptions</div><div class="yt-nav-item">📚 Library</div><div class="yt-nav-item">🕐 History</div></nav><div class="yt-divider"></div><div class="yt-subscriptions"><div class="yt-sub-label">SUBSCRIPTIONS</div><div class="yt-sub-item"><div class="yt-sub-dot" style="background:#ff0000"></div>Media Tracker</div><div class="yt-sub-item"><div class="yt-sub-dot" style="background:#ff6d00"></div>Research Hub</div></div></div><div class="yt-feed"><div class="yt-video-card"><div class="yt-thumbnail"><div class="yt-play">▶</div><div class="yt-duration">12:47</div></div><div class="yt-video-meta"><div class="yt-channel-dot" style="background:#ff0000"></div><div><div class="yt-video-title">Social Media Addiction: A Data Analysis</div><div class="yt-video-channel">Media Tracker Research · 2.1K views · 1 hour ago</div></div></div><div class="yt-video-desc"><p>YouTube is used by 2.53 billion people worldwide, though it does not function strictly as a social network. On Kaggle it has an average of 4.08 hours by maximum user. 1 in 3 maximum users claim it impacts their academics.</p><p>YouTube maximum users possess a mean sleep time of 6.35 hours, a mean mental health score of 6.6 and addiction score of 6.1. Addiction here usually pertains to video consumption rather than messaging.</p></div></div></div></div>`;}
+  else if(social==='snapchat'){content=`<div class="sc-popup"><div class="sc-sidebar"><div class="sc-logo">👻 Snapchat</div><nav class="sc-nav"><div class="sc-nav-item active">💬 Chat</div><div class="sc-nav-item">📸 Camera</div><div class="sc-nav-item">🔍 Discover</div><div class="sc-nav-item">🗺️ Map</div><div class="sc-nav-item">👤 Profile</div></nav><div class="sc-chat-list"><div class="sc-chat-item active"><div class="sc-dot" style="background:#FFFC00"></div><span>Study Group</span></div><div class="sc-chat-item"><div class="sc-dot" style="background:#ff6b6b"></div><span>James</span></div><div class="sc-chat-item"><div class="sc-dot" style="background:#54a0ff"></div><span>Trip T</span></div></div></div><div class="sc-main"><div class="sc-chat-title">Study Group 👻</div><div class="sc-messages"><div class="sc-msg received">omg did you see this snapchat study 👀👻</div><div class="sc-msg sent"><p>Snapchat has over 709 million users globally. The average user utilises it for 5.09 hours, and 12/13 participants claim it affects their academic performance.</p><p>The one who did not claim an effect was the least intensive user at only 3.7 hours a day. Snapchat users possess a mean sleep of 5.7 hours, a mental health score of 5.5 and an addiction score of 7.4.</p><p>This demonstrates the vehement capabilities of Snapchat's algorithm. Only 13 participants were chosen, so sample size may hinder accuracy.</p></div></div><div class="sc-input"><span>💬</span><input placeholder="Send a snap..." readonly /><span>📸</span></div></div></div>`;}
+
+  popupContent.innerHTML=content;
+  overlay.classList.add('active');
+  popup.classList.add('active');
+  document.body.style.overflow='hidden';
+}
+
+function closePopup(){
+  overlay.classList.remove('active');
+  popup.classList.remove('active');
+  document.body.style.overflow='';
+}
+
+document.querySelectorAll('.platform-card').forEach(card=>{
+  card.addEventListener('click',()=>openPopup(card.dataset.social));
+});
+popupClose.addEventListener('click',closePopup);
+overlay.addEventListener('click',closePopup);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePopup();});
+</script>
+
+</body>
 </html>
-
-
-
-
-
-
-
