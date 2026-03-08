@@ -1,0 +1,631 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="index_images/Media_Tracker.png">
+  <link rel="stylesheet" href="global.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <title>About — Media Tracker</title>
+
+  <style>
+    :root {
+      --orange:       #eb844a;
+      --orange-dark:  #ce7400;
+      --orange-deep:  #c46a2a;
+      --orange-pale:  #f1ab83;
+      --amber:        #f09b2b;
+      --bg:           #090909;
+      --surface:      #101010;
+      --surface2:     #161616;
+      --border:       rgba(235,132,74,0.14);
+      --border-bright:rgba(235,132,74,0.35);
+      --text:         #e2d9cf;
+      --muted:        #5a534d;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--orange-dark); border-radius: 3px; }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── BACKGROUND ── */
+    .bg-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 50% at 10% 30%, rgba(206,116,0,0.06) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 90% 70%, rgba(196,106,42,0.04) 0%, transparent 55%),
+        #090909;
+    }
+    .floating-shape { position: absolute; pointer-events: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      background: rgba(9,9,9,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav a {
+      color: #666;
+      padding: 16px 20px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.4px;
+      transition: color 0.2s;
+      display: block;
+    }
+    nav a:hover { color: var(--orange); }
+    nav a.active {
+      color: white;
+      background: rgba(235,132,74,0.12);
+      border-bottom: 2px solid var(--orange);
+    }
+
+    /* ── PAGE ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      padding-top: 64px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 32px 60px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--orange-dark), transparent);
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: var(--orange-dark);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      padding: 6px 16px;
+      border: 1px solid rgba(206,116,0,0.3);
+      border-radius: 30px;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--orange-dark);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(72px, 12vw, 130px);
+      line-height: 0.88;
+      letter-spacing: 3px;
+      color: white;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--orange);
+      display: block;
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      color: var(--muted);
+      font-weight: 300;
+      max-width: 560px;
+      line-height: 1.8;
+      font-style: italic;
+    }
+
+    /* ── CONTENT LAYOUT ── */
+    .content-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 80px 40px 120px;
+      display: flex;
+      flex-direction: column;
+      gap: 80px;
+    }
+
+    /* ── SECTION BLOCKS ── */
+    .block { animation: fadeUp 0.6s ease both; }
+    .block:nth-child(2) { animation-delay: 0.08s; }
+    .block:nth-child(3) { animation-delay: 0.16s; }
+    .block:nth-child(4) { animation-delay: 0.24s; }
+    .block:nth-child(5) { animation-delay: 0.32s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .block-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: var(--orange-dark);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .block-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(34px, 5vw, 52px);
+      letter-spacing: 1px;
+      color: white;
+      line-height: 1;
+      margin-bottom: 28px;
+    }
+
+    /* ── RESEARCH QUESTION CARD ── */
+    .rq-card {
+      background: linear-gradient(135deg, rgba(235,132,74,0.08), rgba(206,116,0,0.04));
+      border: 1px solid var(--border-bright);
+      border-radius: 20px;
+      padding: 40px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .rq-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 40px; right: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--orange-dark), transparent);
+    }
+
+    .rq-quote {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--orange-dark);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .rq-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(22px, 3.5vw, 34px);
+      color: white;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+    }
+
+    .rq-text em {
+      color: var(--orange);
+      font-style: normal;
+    }
+
+    /* ── BODY TEXT ── */
+    .body-text {
+      font-size: 15px;
+      color: #998f88;
+      font-weight: 300;
+      line-height: 1.9;
+    }
+
+    .body-text + .body-text { margin-top: 16px; }
+
+    /* ── FACTOR GRID ── */
+    .factor-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .factor-pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .factor-pill:hover {
+      border-color: var(--border-bright);
+      background: #141414;
+    }
+
+    .factor-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .factor-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    /* ── DATASET CARDS ── */
+    .dataset-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .dataset-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .dataset-card:hover {
+      border-color: var(--border-bright);
+      transform: translateY(-3px);
+    }
+
+    .dataset-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 20px; right: 20px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--orange-dark), transparent);
+    }
+
+    .dataset-year {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px;
+      color: rgba(235,132,74,0.15);
+      line-height: 1;
+      position: absolute;
+      top: 16px; right: 20px;
+      letter-spacing: 2px;
+    }
+
+    .dataset-num {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--orange-dark);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      padding: 4px 10px;
+      border: 1px solid rgba(206,116,0,0.3);
+      border-radius: 20px;
+    }
+
+    .dataset-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .dataset-author {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 14px;
+    }
+
+    .dataset-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--orange-pale);
+      background: rgba(241,171,131,0.08);
+      border: 1px solid rgba(241,171,131,0.2);
+      border-radius: 20px;
+      padding: 4px 12px;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .divider-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--orange-dark);
+    }
+
+    /* ── REFERENCES ── */
+    .ref-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .ref-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--orange-dark);
+      border-radius: 0 12px 12px 0;
+      padding: 20px 24px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      transition: border-left-color 0.2s, background 0.2s;
+    }
+
+    .ref-item:hover {
+      border-left-color: var(--orange);
+      background: #141414;
+    }
+
+    .ref-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      color: rgba(235,132,74,0.3);
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 28px;
+    }
+
+    .ref-body { flex: 1; }
+
+    .ref-citation {
+      font-size: 13px;
+      color: #998f88;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+
+    .ref-citation strong {
+      color: var(--orange-pale);
+      font-weight: 600;
+    }
+
+    .ref-link {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--orange-dark);
+      text-decoration: none;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      transition: color 0.2s;
+      word-break: break-all;
+    }
+    .ref-link:hover { color: var(--orange); }
+
+    /* ── CALLOUT ── */
+    .callout {
+      padding: 20px 24px;
+      background: rgba(235,132,74,0.05);
+      border-left: 2px solid var(--orange-dark);
+      border-radius: 0 10px 10px 0;
+      font-size: 14px;
+      color: var(--orange-pale);
+      font-weight: 300;
+      line-height: 1.8;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a href="index.html">Home</a>
+  <a href="usage_data.html">Usage</a>
+  <a href="user_data.html">Users</a>
+  <a href="about.html" class="active">About</a>
+</nav>
+
+<!-- BG -->
+<div class="bg-wrap" id="bgwrap"></div>
+
+<script>
+  const bgImgs = ['index_background/Square_1.png','index_background/Square_2.png','index_background/Square_3.png'];
+  const bgEl = document.getElementById('bgwrap');
+  const placed = [];
+  const n = Math.floor(Math.random()*4)+5;
+  function overlaps(x,y,s){ return placed.some(p=>Math.hypot(x-p.x,y-p.y)<(s+p.s)/6); }
+  let c=0,a=0;
+  while(c<n&&a<1000){
+    a++;
+    const s=Math.random()*80+50, x=Math.random()*90, y=Math.random()*90;
+    if(overlaps(x,y,s)) continue;
+    placed.push({x,y,s});
+    const img=document.createElement('img');
+    img.src=bgImgs[Math.floor(Math.random()*3)];
+    img.className='floating-shape';
+    img.style.cssText=`width:${s}px;height:${s}px;left:${x}%;top:${y}%;transform:rotate(${Math.random()*360}deg);opacity:${Math.random()*0.35+0.15};mix-blend-mode:screen;`;
+    bgEl.appendChild(img); c++;
+  }
+</script>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">Research Investigation · 2024</div>
+    <h1>About<em>This Study</em></h1>
+    <p class="hero-sub">"How does social media affect students at high school and university levels?"</p>
+  </div>
+
+  <div class="content-wrap">
+
+    <!-- RESEARCH QUESTION -->
+    <div class="block">
+      <span class="block-tag">01 — Research Question</span>
+      <div class="rq-card">
+        <span class="rq-quote">Core Investigation</span>
+        <p class="rq-text">How does <em>Social Media</em> affect students at <em>high school</em> and <em>university</em> levels?</p>
+      </div>
+    </div>
+
+    <!-- JUSTIFICATION -->
+    <div class="block">
+      <span class="block-tag">02 — Justification</span>
+      <h2 class="block-title">Why This Matters</h2>
+      <p class="body-text">
+        Social media is a very prominent aspect of modern society, especially among the younger generation. Studies have demonstrated that as more people become integrated into the digital world, addiction — due to the dopamine-producing nature of social applications — has become a vast and profound phenomenon.
+      </p>
+      <p class="body-text" style="margin-top:16px;">
+        Investigating the factors among students that relate to social media usage is pivotal to identifying the <strong style="color:var(--orange-pale);font-weight:600;">causes of addiction</strong>, evaluating social media's relation to <strong style="color:var(--orange-pale);font-weight:600;">academic performance</strong>, and informing communities of the role it should play in the world of the future.
+      </p>
+      <div class="callout" style="margin-top:28px;">
+        This investigation sits at the intersection of technology, mental health, and education — areas where peer-reviewed research is still catching up to the pace of platform growth.
+      </div>
+    </div>
+
+    <div class="divider"><div class="divider-dot"></div></div>
+
+    <!-- DATA DESCRIPTION -->
+    <div class="block">
+      <span class="block-tag">03 — Data Description</span>
+      <h2 class="block-title">What Was Collected</h2>
+      <p class="body-text">
+        The data highlights many important factors that may influence one's engagement and usage of social media. Two secondary datasets were used — both thoroughly validated, fully anonymised, with no duplicates or miscategorised entries.
+      </p>
+
+      <div class="factor-grid">
+        <div class="factor-pill"><span class="factor-icon">🎂</span><span class="factor-label">Age</span></div>
+        <div class="factor-pill"><span class="factor-icon">🌍</span><span class="factor-label">Country of Residence</span></div>
+        <div class="factor-pill"><span class="factor-icon">🎓</span><span class="factor-label">Academic Level</span></div>
+        <div class="factor-pill"><span class="factor-icon">🧠</span><span class="factor-label">Mental Health Scores</span></div>
+        <div class="factor-pill"><span class="factor-icon">💑</span><span class="factor-label">Relationship Status</span></div>
+        <div class="factor-pill"><span class="factor-icon">📱</span><span class="factor-label">Platform Usage Hours</span></div>
+      </div>
+    </div>
+
+    <!-- DATASETS -->
+    <div class="block">
+      <span class="block-tag">04 — Datasets Used</span>
+      <h2 class="block-title">The Sources</h2>
+      <p class="body-text">Two datasets were selected to work in combination, both created within the last two years — ensuring relevance to the modern social media landscape.</p>
+
+      <div class="dataset-grid">
+        <div class="dataset-card">
+          <span class="dataset-year">2025</span>
+          <span class="dataset-num">Dataset 01</span>
+          <div class="dataset-title">Students' Social Media Addiction vs. Relationships</div>
+          <div class="dataset-author">Adil Shamim · Kaggle · 2025</div>
+          <div class="dataset-tag">✓ Validated · Anonymised</div>
+        </div>
+        <div class="dataset-card">
+          <span class="dataset-year">2023</span>
+          <span class="dataset-num">Dataset 02</span>
+          <div class="dataset-title">Social Media and Mental Health</div>
+          <div class="dataset-author">Souvik Ahmed · Kaggle · 2023</div>
+          <div class="dataset-tag">✓ Validated · Anonymised</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"><div class="divider-dot"></div></div>
+
+    <!-- REFERENCES -->
+    <div class="block">
+      <span class="block-tag">05 — References</span>
+      <h2 class="block-title">APA 7 Citations</h2>
+
+      <div class="ref-list">
+
+        <div class="ref-item">
+          <span class="ref-num">01</span>
+          <div class="ref-body">
+            <p class="ref-citation">
+              <strong>Claude.</strong> (2025). <em>Claude.ai.</em> (graphs were created using collected data)
+            </p>
+            <a class="ref-link" href="https://claude.ai/public/artifacts/5446a191-e4e6-4d08-92e2-09ec005ec667" target="_blank">
+              https://claude.ai/public/artifacts/5446a191-e4e6-4d08-92e2-09ec005ec667
+            </a>
+          </div>
+        </div>
+
+        <div class="ref-item">
+          <span class="ref-num">02</span>
+          <div class="ref-body">
+            <p class="ref-citation">
+              <strong>Shamim, A.</strong> (2025). Students' Social Media Addiction. <em>Kaggle.com.</em>
+            </p>
+            <a class="ref-link" href="https://www.kaggle.com/datasets/adilshamim8/social-media-addiction-vs-relationships" target="_blank">
+              https://www.kaggle.com/datasets/adilshamim8/social-media-addiction-vs-relationships
+            </a>
+          </div>
+        </div>
+
+        <div class="ref-item">
+          <span class="ref-num">03</span>
+          <div class="ref-body">
+            <p class="ref-citation">
+              Social Media and Mental Health. (n.d.). <em>Www.kaggle.com.</em>
+            </p>
+            <a class="ref-link" href="https://www.kaggle.com/datasets/souvikahmed071/social-media-and-mental-health" target="_blank">
+              https://www.kaggle.com/datasets/souvikahmed071/social-media-and-mental-health
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /content-wrap -->
+</div><!-- /page -->
+
+</body>
+</html>
