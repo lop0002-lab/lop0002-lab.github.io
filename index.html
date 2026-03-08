@@ -38,7 +38,6 @@
 
     .page{position:relative;z-index:1;padding-top:64px}
 
-    /* HERO */
     .hero{min-height:calc(100vh - 64px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 32px 60px;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
     .hero::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:700px;height:1px;background:linear-gradient(90deg,transparent,var(--orange-dark),transparent)}
     .hero-bg-num{position:absolute;font-family:'Bebas Neue',sans-serif;font-size:clamp(200px,30vw,420px);color:rgba(235,132,74,0.03);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;letter-spacing:-10px;user-select:none}
@@ -60,7 +59,6 @@
     .hero-stat-lbl{font-size:10px;color:var(--muted);font-weight:600;letter-spacing:2px;text-transform:uppercase}
     .hero-stat-div{width:1px;height:40px;background:var(--border);align-self:center}
 
-    /* EXPLORE */
     .explore{max-width:1040px;margin:0 auto;padding:100px 40px}
     .explore-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px;flex-wrap:wrap;gap:20px}
     .explore-tag{font-size:10px;font-weight:700;letter-spacing:4px;color:var(--orange-dark);text-transform:uppercase;display:block;margin-bottom:10px}
@@ -85,10 +83,8 @@
     .platform-arrow{font-size:11px;color:var(--muted);transition:color 0.2s,transform 0.2s;margin-top:auto}
     .platform-card:hover .platform-arrow{color:var(--orange);transform:translateX(3px)}
 
-    /* stagger */
     .platform-card:nth-child(1){animation-delay:.05s}.platform-card:nth-child(2){animation-delay:.08s}.platform-card:nth-child(3){animation-delay:.11s}.platform-card:nth-child(4){animation-delay:.14s}.platform-card:nth-child(5){animation-delay:.17s}.platform-card:nth-child(6){animation-delay:.20s}.platform-card:nth-child(7){animation-delay:.23s}.platform-card:nth-child(8){animation-delay:.26s}.platform-card:nth-child(9){animation-delay:.29s}.platform-card:nth-child(10){animation-delay:.32s}.platform-card:nth-child(11){animation-delay:.35s}.platform-card:nth-child(12){animation-delay:.38s}
 
-    /* POPUP */
     .social-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);z-index:500;opacity:0;visibility:hidden;transition:opacity 0.25s,visibility 0.25s}
     .social-overlay.active{opacity:1;visibility:visible}
     .social-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.92);width:72vw;height:76vh;background:#0d0d0d;border:1px solid var(--border-bright);border-radius:18px;overflow:hidden;z-index:600;opacity:0;visibility:hidden;transition:all 0.28s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 40px 100px rgba(0,0,0,0.7)}
@@ -219,3 +215,4 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closePopup();});
 
 </body>
 </html>
+
