@@ -261,7 +261,6 @@ ul li.active {
   font-size: 18px;
 }
 
-/* Instagram popup layout */
 .ig-popup {
   display: flex;
   width: 100%;
@@ -446,4 +445,5 @@ ul li.active {
   color: #ccc;
   line-height: 1.4;
 }
+
 
