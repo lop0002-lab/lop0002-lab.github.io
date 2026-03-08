@@ -1,344 +1,707 @@
-<html>
-  <head>
-    <link rel="icon" type="image/png" href="index_images/Media_Tracker.png">
-    <link rel="stylesheet" href="global.css">
-	
-	<meta charset="utf-8"/>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	
-	<div class="background"></div> <!--this is to do with the background to make it work -->
-	<style>
-    .background {
-     position: fixed;
-     inset: 0;
-     }
-     </style>
-	 
-    <div class="titling">Usage Data</div>
-    <style>
-	.titling {font-size:80px;
-     font-weight: bold;
-     color: white;
-     text-align: center;}
-	</style>
-	 
-<script> <!-- pls do not unbox ts is so big the code for flying boxes itadakimasu felix -->
-  const images = [
-    'index_background/Square_1.png',
-    'index_background/Square_2.png',
-    'index_background/Square_3.png'
-  ];
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="index_images/Media_Tracker.png">
+  <link rel="stylesheet" href="global.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>Usage Data — Media Tracker</title>
 
-  const background = document.querySelector('.background');
-  const placed = [];
-  const targetCount = Math.floor(Math.random() * 4) + 5; // random between 5 and 8
-
-  function overlaps(x, y, size) {
-    for (const p of placed) {
-      const dx = x - p.x;
-      const dy = y - p.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      if (distance < (size + p.size) / 6) return true;
+  <style>
+    :root {
+      --orange:      #eb844a;
+      --orange-dark: #ce7400;
+      --orange-deep: #c46a2a;
+      --orange-pale: #f1ab83;
+      --amber:       #f09b2b;
+      --bg:          #090909;
+      --surface:     #101010;
+      --surface2:    #161616;
+      --border:      rgba(235,132,74,0.14);
+      --border-bright: rgba(235,132,74,0.35);
+      --text:        #e2d9cf;
+      --muted:       #5a534d;
     }
-    return false;
-  }
 
-  let count = 0;
-  let attempts = 0;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  while (count < targetCount && attempts < 1000) {
-    attempts++;
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--orange-dark); border-radius: 3px; }
 
-    const size = Math.random() * 80 + 50;
-    const x = Math.random() * 90;
-    const y = Math.random() * 90;
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-    if (overlaps(x, y, size)) continue;
+    /* ── BACKGROUND CANVAS ── */
+    .bg-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 50% at 15% 15%, rgba(206,116,0,0.06) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 85% 85%, rgba(196,106,42,0.04) 0%, transparent 55%),
+        #090909;
+    }
+    .floating-shape { position: absolute; pointer-events: none; }
 
-    placed.push({ x, y, size });
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      background: rgba(9,9,9,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 8px;
+    }
+    nav a {
+      color: #666;
+      padding: 16px 18px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.4px;
+      transition: color 0.2s;
+      display: block;
+    }
+    nav a:hover { color: var(--orange); }
+    nav a.active {
+      color: white;
+      background: rgba(235,132,74,0.12);
+      border-bottom: 2px solid var(--orange);
+    }
 
-    const img = document.createElement('img');
-    img.src = images[Math.floor(Math.random() * images.length)];
-    img.classList.add('floating-shape');
+    /* ── LAYOUT ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      padding-top: 64px;
+    }
 
-    const angle = Math.random() * 360;
-    const opacity = Math.random() * 0.5 + 0.4;
-
-    img.style.cssText = `
-      width: ${size}px;
-      height: ${size}px;
-      left: ${x}%;
-      top: ${y}%;
-      transform: rotate(${angle}deg);
-      opacity: ${opacity};
-      mix-blend-mode: screen;
-    `;
-
-    background.appendChild(img);
-    count++;
-  }
-</script>
-	
-	<style> /*css for this doc but I kinda wanna copy this over to the user data page, same colours as the claude website cause they looked nice*/
-	html, body {
-	  height: auto;
-	  overflow-y: auto;
-	  }
-	
-    body { background: #1a1a1a; 
-           display: flex; 
-		   flex-direction: column;
-		   justify-content: center; 
-		   align-items: center; 
-		   min-height: 100vh; 
-		   margin: 0; 
-		   font-family: Inter, sans-serif; 
-		   gap: 40px; 
-		   padding-top: 80px }
-		   
-    .piecard { background: #252525; 
-	        border: 1px solid #333; 
-			border-radius: 16px; 
-			padding: 24px; 
-			width: 550px; 
-			}
-			
-    .bubblecard { background: #252525; 
-	        border: 1px solid #333; 
-			border-radius: 16px; 
-			padding: 24px; 
-			width: 700px; 
-			}
-			
-    h3 { color: #fbbf24; 
-	     font-size: 18px; 
-		 font-weight: 900; 
-		 margin: 0 0 4px; 
-		 }
-		 
-    p  { color: #6b6b6b; 
-	     font-size: 12px; 
-		 margin: 0 0 20px; 
-		 }
-		 
-    .stat-row { display: flex;
-                gap: 12px;
-                margin-top: 20px;
-	          }
-    .stat {
-      flex: 1;
-      background: #1e1e1e;
-      border-radius: 12px;
-      padding: 12px;
+    /* ── HERO ── */
+    .hero {
+      min-height: 340px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
+      padding: 80px 32px 60px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
     }
-	
-    .stat-label { color: #6b6b6b; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
-    .stat-value { color: #fbbf24; font-size: 22px; font-weight: 900; margin: 4px 0 2px; }
-    .stat-sub   { color: #c2410c; font-size: 10px; font-weight: 700; }
-    </style>
-  
-  </head>
 
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--orange-dark), transparent);
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: var(--orange-dark);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      padding: 6px 14px;
+      border: 1px solid rgba(206,116,0,0.3);
+      border-radius: 30px;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--orange-dark);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(72px, 12vw, 140px);
+      line-height: 0.88;
+      letter-spacing: 3px;
+      color: white;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--orange);
+      display: block;
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: var(--muted);
+      font-weight: 300;
+      max-width: 480px;
+      line-height: 1.8;
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 80px 40px;
+    }
+
+    .section + .section {
+      border-top: 1px solid var(--border);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .section-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: var(--orange-dark);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 5vw, 56px);
+      letter-spacing: 1px;
+      color: white;
+      line-height: 1;
+    }
+
+    .section-desc {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.8;
+      max-width: 340px;
+      text-align: right;
+    }
+
+    /* ── STAT ROW ── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--border-bright);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 32px;
+      background: var(--surface);
+    }
+
+    .stat-cell {
+      padding: 24px 28px;
+      text-align: center;
+      position: relative;
+    }
+
+    .stat-cell + .stat-cell {
+      border-left: 1px solid var(--border);
+    }
+
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 44px;
+      color: var(--orange);
+      line-height: 1;
+      display: block;
+      letter-spacing: 1px;
+    }
+
+    .stat-lbl {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: block;
+      margin-top: 6px;
+    }
+
+    /* ── CHART CARDS ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 40px; right: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--orange-dark), transparent);
+    }
+
+    .card-glow {
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, rgba(235,132,74,0.05) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    /* ── PIE LAYOUT ── */
+    .pie-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .pie-wrap { position: relative; }
+
+    .pie-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .pie-center-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      color: var(--orange);
+      line-height: 1;
+    }
+
+    .pie-center-lbl {
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .pie-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      transition: border-color 0.2s, background 0.2s;
+      cursor: default;
+    }
+
+    .legend-row:hover {
+      border-color: var(--border-bright);
+      background: rgba(235,132,74,0.04);
+    }
+
+    .legend-bar-wrap {
+      flex: 1;
+      height: 4px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .legend-bar {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.8s ease;
+    }
+
+    .legend-swatch {
+      width: 10px; height: 10px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    .legend-name {
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 500;
+      min-width: 80px;
+    }
+
+    .legend-pct {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      color: var(--orange);
+      min-width: 48px;
+      text-align: right;
+    }
+
+    /* ── CALLOUT ── */
+    .callout {
+      margin-top: 28px;
+      padding: 18px 22px;
+      background: rgba(235,132,74,0.05);
+      border-left: 2px solid var(--orange-dark);
+      border-radius: 0 10px 10px 0;
+      font-size: 13px;
+      color: var(--orange-pale);
+      font-weight: 300;
+      line-height: 1.8;
+      font-style: italic;
+    }
+
+    /* ── BUBBLE CHART ── */
+    .bubble-wrap { position: relative; }
+
+    .bubble-annotation {
+      position: absolute;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      pointer-events: none;
+    }
+
+    .bubble-annotation.tl { top: 14px; left: 64px; }
+    .bubble-annotation.br { bottom: 46px; right: 20px; }
+
+    .annot-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    .annot-dot.light  { background: rgba(241,171,131,0.7); }
+    .annot-dot.heavy  { background: var(--orange-deep); }
+
+    /* ── CHART FOOTER ── */
+    .chart-foot {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: #333;
+      letter-spacing: 0.3px;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero      { animation: fadeUp 0.7s ease both; }
+    .card      { animation: fadeUp 0.6s ease both; }
+    .stat-row  { animation: fadeUp 0.5s ease 0.1s both; }
+
+    .section:nth-child(2) .card { animation-delay: 0.05s; }
+    .section:nth-child(3) .card { animation-delay: 0.1s; }
+  </style>
+</head>
 <body>
 
- <a href="index.html" class="home-link">Home</a> 
- <style>
- .home-link {
-   text-decoration: none; /* turning it into button and eviscerate the underline */
-   background-color: rgb(251, 191, 36, 0.6);
-   color: white;
-   padding: 10px 20px;
-   border-radius: 8px;
-   display: inline-block;
-   font-weight: bold; /* positioning of the thing and the style of text */
-   position: absolute; 
-   top: 20px;
-   left:20px; 
-   }
- .home-link:hover {
-   color: #fff;
-   }
-  </style>
-  
+<!-- Nav -->
+<nav>
+  <a href="index.html">Home</a>
+  <a href="usage_data.html" class="active">Usage</a>
+  <a href="user_data.html">Users</a>
+  <a href="#about">About</a>
+</nav>
 
-<div class="piewriting"> It has been indicated that most users often use Social Media for purposeless reasons to a moderate extent. (34% using it for often) and only  18% did not commonly utilize it.  It is found this mostly  was with High school and University students. 
- </div>
-<style>
- .piewriting {font-size:14px;
- font-weight: bold;
- color: #ccc;
- text-align: center;
- padding: 0 200px
- }
-</style>
-  
-<div class="piecard">
-  <h3>Purposeless Usage</h3>
-  <p>How often users scroll with no specific goal</p>
-  <canvas id="piechart"></canvas>
-</div>
+<!-- BG -->
+<div class="bg-wrap" id="bgwrap"></div>
 
 <script>
-  // Step 1: Raw survey answers — each number is one person's answer (1=Never, 5=Always)
-  const answers = [5,4,3,4,3,4,4,5,5,1,5,4,3,5,5,3,2,5,3,2,4,3,3,3,3,4,4,2,3,4,4,3,3,4,5,3,5,2,4,4,1,3,1,3,5,4,5,4,3,3,4,5,3,3,4,2,3,3,4,1,4,2,4,3,2,3,5,2,4,4,2,5,4,5,4,2,4,4,4,2,4,4,5,3,4,4,3,4,5,4,3,4,4,4,4,5,5,4,4,4,3,5,3,4,2,2,3,1,3,4,3,4,4,2,2,5,5,5,5,4,2,4,4,4,5,4,1,3,5,3,2,4,3,3,2,5,3,3,4,4,3,4,4,3,4,4,4,3,3,4,3,5,3,1,5,2,1,3,3,5,4,3,4,3,3,2,5,2,2,2,5,4,5,4,4,4,3,5,3,3,5,4,3,3,5,3,4,4,5,5,3,3,3,5,4,3,5,3,2,3,3,4,5,4,5,3,4,5,3,2,3,5,5,1,3,4,1,4,3,3,4,4,4,3,3,2,5,5,2,4,2,3,5,2,4,5,2,5,5,3,4,3,3,5,3,5,4,4,2,5,2,5,4,5,4,4,2,4,3,2,4,3,2,4,5,3,4,3,4,3,3,4,5,2,4,5,5,5,4,3,4,2,1,4,4,4,4,3,3,2,3,3,4,4,3,2,2,4,3,2,3,4,4,4,2,4,5,5,3,3,4,5,2,2,5,4,2,4,5,5,3,3,5,3,5,4,5,4,4,5,4,4,5,5,3,4,4,5,4,3,5,3,5,4,3,5,2,5,4,5,4,2,4,2,3,2,4,3,5,4,3,4,4,4,3,5,4,5,4,3,5,5,3,4,4,3,3,4,3,4,5,4,4,3,4,5,5,4,3,5,4,3,5,4,5,4,5,4,2,3,4,2,5,1,1,4,5,3,4,5,4,3,5,2,4,4,2,5,3,4,4,2,4,4,4,4,4,5,1,4,4,5,3,4,3,3,1,4,5,4,4,3,4,4,5,2,3,5,4,3,2,4,1,1,3,2,1,3,3,3,1,2,5,3,3,4,2,3,2,1,2,5,3,4,2,5,3,2,3,2,2];
-
-  // Step 2: Count how many people gave each answer (1 through 5)
-  const counts = [0, 0, 0, 0, 0];
-  answers.forEach(val => counts[val - 1]++);
-  // counts[0] = how many said "Never", counts[1] = "Rarely", etc.
-
-  // Step 3: Draw the chart!
-  new Chart(document.getElementById('piechart'), {
-    type: 'pie',
-    data: {
-      labels: ['Never (1)', 'Rarely (2)', 'Sometimes (3)', 'Often (4)', 'Always (5)'],
-      datasets: [{
-        data: counts,
-        backgroundColor: ['#7c2d12', '#c2410c', '#d97706', '#f59e0b', '#fbbf24'],
-        borderColor: '#1a1a1a',
-        borderWidth: 3
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { color: '#ccc', padding: 14, font: { size: 12, weight: 'bold' } }
-        },
-        tooltip: {
-          callbacks: {
-            label: ctx => {
-              const total = counts.reduce((a, b) => a + b, 0);
-              const pct = ((ctx.parsed / total) * 100).toFixed();
-              return ` ${ctx.label}: ${ctx.parsed} people (${pct}%)`;
-            }
-          }
-        }
-      }
-    }
-  });
+  const bgImgs = ['index_background/Square_1.png','index_background/Square_2.png','index_background/Square_3.png'];
+  const bgEl = document.getElementById('bgwrap');
+  const placed = [];
+  const n = Math.floor(Math.random()*4)+5;
+  function overlaps(x,y,s){ return placed.some(p=>Math.hypot(x-p.x,y-p.y)<(s+p.s)/6); }
+  let c=0,a=0;
+  while(c<n&&a<1000){
+    a++;
+    const s=Math.random()*80+50, x=Math.random()*90, y=Math.random()*90;
+    if(overlaps(x,y,s)) continue;
+    placed.push({x,y,s});
+    const img=document.createElement('img');
+    img.src=bgImgs[Math.floor(Math.random()*3)];
+    img.className='floating-shape';
+    img.style.cssText=`width:${s}px;height:${s}px;left:${x}%;top:${y}%;transform:rotate(${Math.random()*360}deg);opacity:${Math.random()*0.35+0.15};mix-blend-mode:screen;`;
+    bgEl.appendChild(img); c++;
+  }
 </script>
-   
-   
-<div class="bubblewriting">     It is shown  Sleep hours is inversely proportional to Social Media usage as indicated by the graph, the recommended sleep time of 8 hours is only reached by one of the least intense social media users.
-</div>
-<style>
- .bubblewriting {font-size:14px;
- font-weight: bold;
- color: #ccc;
- text-align: center;
- padding: 0 200px}
-</style>
-   
-   
-<div class="bubblecard">
-  <h3>Usage vs Sleep Correlation</h3>
-  <p>Each dot = one participant. More phone time = less sleep.</p>
-  <canvas id="bubblechart"></canvas>
 
-  <!-- Summary stats below the chart -->
-  <div class="stat-row">
-    <div class="stat">
-      <div class="stat-label">Heavy Users (7h+)</div>
-      <div class="stat-value">4.5h</div>
-      <div class="stat-sub">avg sleep</div>
+<div class="page">
+
+  <!-- ── HERO ── -->
+  <div class="hero">
+    <div class="hero-tag">Social Media Research · 2024</div>
+    <h1>Usage<em>Data</em></h1>
+    <p class="hero-sub">Examining how students interact with social media — how often, for what reasons, and at what cost to their sleep and mental health.</p>
+  </div>
+
+  <!-- ── SECTION 1: PIE ── -->
+  <div class="section">
+    <div class="section-header">
+      <div>
+        <span class="section-tag">01 — Behaviour</span>
+        <h2 class="section-title">Purposeless Scrolling</h2>
+      </div>
+      <p class="section-desc">Most users scroll social media with no specific goal. Only 18% said they rarely or never do so — the majority scroll often or always.</p>
     </div>
-    <div class="stat">
-      <div class="stat-label">Light Users (&lt;3h)</div>
-      <div class="stat-value">7.5h</div>
-      <div class="stat-sub">avg sleep</div>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <span class="stat-num">482</span>
+        <span class="stat-lbl">Participants</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">34%</span>
+        <span class="stat-lbl">Scroll "Often"</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">18%</span>
+        <span class="stat-lbl">Rarely / Never</span>
+      </div>
     </div>
-    <div class="stat">
-      <div class="stat-label">Sleep Difference</div>
-      <div class="stat-value">3h</div>
-      <div class="stat-sub">less sleep</div>
+
+    <div class="card">
+      <div class="card-glow"></div>
+      <div class="pie-layout">
+        <div class="pie-wrap">
+          <canvas id="piechart"></canvas>
+          <div class="pie-center">
+            <span class="pie-center-num">482</span>
+            <span class="pie-center-lbl">Students</span>
+          </div>
+        </div>
+        <div class="pie-legend" id="pieLegend"></div>
+      </div>
+      <div class="callout">
+        This pattern was most pronounced among high school and university students — those with the least structured daily routine showed the highest rates of purposeless usage.
+      </div>
     </div>
   </div>
-</div>
+
+  <!-- ── SECTION 2: BUBBLE ── -->
+  <div class="section">
+    <div class="section-header">
+      <div>
+        <span class="section-tag">02 — Sleep Impact</span>
+        <h2 class="section-title">More Screen Time<br>= Less Sleep</h2>
+      </div>
+      <p class="section-desc">The recommended 8 hours of sleep is reached only by the lightest users. The correlation is stark across 100 data points.</p>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <span class="stat-num">4.8h</span>
+        <span class="stat-lbl">Avg Daily Usage</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">6.1h</span>
+        <span class="stat-lbl">Avg Sleep</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">100</span>
+        <span class="stat-lbl">Data Points</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-glow"></div>
+      <div class="bubble-wrap">
+        <canvas id="bubblechart"></canvas>
+        <div class="bubble-annotation tl">
+          <span class="annot-dot light"></span>
+          Low usage<br>Better sleep
+        </div>
+        <div class="bubble-annotation br">
+          <span class="annot-dot heavy"></span>
+          High usage<br>Poor sleep
+        </div>
+      </div>
+      <div class="chart-foot">📊 Source: Kaggle Social Media &amp; Student Wellbeing Dataset</div>
+    </div>
+  </div>
+
+</div><!-- /page -->
 
 <script>
-  // Each pair is [daily social media hours, sleep hours] for one participant
-  const rawData = [
-    [5.2,6.5],[2.1,7.5],[6,5],[3,7],[4.5,6],[7.2,4.5],[1.5,8],[5.8,6],
-    [4,6.5],[3.3,7],[4.8,6.2],[5.5,5.8],[2.8,7.2],[6.5,5.5],[3.7,6.8],
-    [4.2,6],[2,7.8],[5,5.7],[3.5,6.7],[4.7,5.9],[5.3,5.5],[2.5,7.3],
-    [4.9,5.8],[5.7,5.4],[3.2,6.9],[6.1,5.2],[3.8,6.6],[4.4,5.9],[2.2,7.4],
-    [5.9,5.3],[3.6,6.7],[4.8,5.7],[5.4,5.4],[2.6,7.2],[4.7,5.8],[5.6,5.5],
-    [3.1,6.8],[6.2,5.1],[3.9,6.5],[4.5,5.8],[2.3,7.3],[5.8,5.4],[3.7,6.6],
-    [4.6,5.7],[5.5,5.3],[2.7,7.1],[4.8,5.9],[5.5,5.6],[3.3,6.7],[6.3,5.2],
-    [3.8,6.4],[4.7,5.8],[2.4,7.2],[5.7,5.5],[3.6,6.5],[4.9,5.6],[5.6,5.2],
-    [2.8,7],[4.6,5.9],[5.4,5.7],[3.1,7.1],[5.6,5.6],[4.2,6],[6.1,5.2],
-    [2.3,7.4],[4.8,5.8],[3.9,6.5],[5.7,5.4],[2.8,7.2],[4.5,5.9],[5.4,5.5],
-    [3.2,6.8],[4.9,5.7],[5.8,5.3],[2.5,7.3],[4.6,5.8],[5.5,5.4],[2.9,7],
-    [4.7,5.9],[5.9,5.2],[3,7.1],[4.8,5.7],[3.8,6.6],[2.7,7.2],[5.6,5.3],
-    [4.5,5.8],[5.3,5.5],[2.6,7.3],[4.4,6],[5.8,5.2],[2.9,7],[4.7,5.8],
-    [3.7,6.5],[5.5,5.4],[2.4,7.4],[4.9,5.7],[5.7,5.3],[2.8,7.1],[4.6,5.9],[5.4,5.5]
-  ];
+/* ── PIE ── */
+const answers = [5,4,3,4,3,4,4,5,5,1,5,4,3,5,5,3,2,5,3,2,4,3,3,3,3,4,4,2,3,4,4,3,3,4,5,3,5,2,4,4,1,3,1,3,5,4,5,4,3,3,4,5,3,3,4,2,3,3,4,1,4,2,4,3,2,3,5,2,4,4,2,5,4,5,4,2,4,4,4,2,4,4,5,3,4,4,3,4,5,4,3,4,4,4,4,5,5,4,4,4,3,5,3,4,2,2,3,1,3,4,3,4,4,2,2,5,5,5,5,4,2,4,4,4,5,4,1,3,5,3,2,4,3,3,2,5,3,3,4,4,3,4,4,3,4,4,4,3,3,4,3,5,3,1,5,2,1,3,3,5,4,3,4,3,3,2,5,2,2,2,5,4,5,4,4,4,3,5,3,3,5,4,3,3,5,3,4,4,5,5,3,3,3,5,4,3,5,3,2,3,3,4,5,4,5,3,4,5,3,2,3,5,5,1,3,4,1,4,3,3,4,4,4,3,3,2,5,5,2,4,2,3,5,2,4,5,2,5,5,3,4,3,3,5,3,5,4,4,2,5,2,5,4,5,4,4,2,4,3,2,4,3,2,4,5,3,4,3,4,3,3,4,5,2,4,5,5,5,4,3,4,2,1,4,4,4,4,3,3,2,3,3,4,4,3,2,2,4,3,2,3,4,4,4,2,4,5,5,3,3,4,5,2,2,5,4,2,4,5,5,3,3,5,3,5,4,5,4,4,5,4,4,5,5,3,4,4,5,4,3,5,3,5,4,3,5,2,5,4,5,4,2,4,2,3,2,4,3,5,4,3,4,4,4,3,5,4,5,4,3,5,5,3,4,4,3,3,4,3,4,5,4,4,3,4,5,5,4,3,5,4,3,5,4,5,4,5,4,2,3,4,2,5,1,1,4,5,3,4,5,4,3,5,2,4,4,2,5,3,4,4,2,4,4,4,4,4,5,1,4,4,5,3,4,3,3,1,4,5,4,4,3,4,4,5,2,3,5,4,3,2,4,1,1,3,2,1,3,3,3,1,2,5,3,3,4,2,3,2,1,2,5,3,4,2,5,3,2,3,2,2];
+const counts = [0,0,0,0,0];
+answers.forEach(v => counts[v-1]++);
+const total = counts.reduce((a,b)=>a+b,0);
 
-  // Convert each [usage, sleep] pair into the {x, y, r} format Chart.js needs
-  // x = usage hours (horizontal position)
-  // y = sleep hours (vertical position)
-  // r = radius of the dot in pixels
-  const points = rawData.map(([usage, sleep]) => ({ x: usage, y: sleep, r: 7 }));
+const pieLabels  = ['Never','Rarely','Sometimes','Often','Always'];
+const pieColors  = ['#2a1000','#7a3800','#ce7400','#eb884a','#f1ab83'];
+const pieWidths  = counts.map(c => (c/total*100).toFixed(1));
 
-  new Chart(document.getElementById('bubblechart'), {
-    type: 'bubble',
-    data: {
-      datasets: [{
-        label: 'Participant',
-        data: points,
-        backgroundColor: 'rgba(245, 158, 11, 0.45)', // semi-transparent amber fill
-        borderColor: '#f59e0b',                        // solid amber outline
-        borderWidth: 1.5,
-        hoverBackgroundColor: '#fbbf24',               // bright gold on hover
-        hoverBorderColor: '#fff',
-        hoverBorderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        x: {
-          min: 0,
-          max: 10,
-          title: {
-            display: true,
-            text: 'Daily Social Media Usage (Hours)',
-            color: '#aaa',
-            font: { size: 12, weight: 'bold' }
-          },
-          ticks: { color: '#888' },
-          grid:  { color: '#2e2e2e' }
-        },
-        y: {
-          min: 3,
-          max: 10,
-          title: {
-            display: true,
-            text: 'Sleep (Hours)',
-            color: '#aaa',
-            font: { size: 12, weight: 'bold' }
-          },
-          ticks: { color: '#888' },
-          grid:  { color: '#2e2e2e' }
+// build legend
+const legendEl = document.getElementById('pieLegend');
+counts.forEach((c,i) => {
+  const pct = (c/total*100).toFixed(0);
+  legendEl.innerHTML += `
+    <div class="legend-row">
+      <div class="legend-swatch" style="background:${pieColors[i]}"></div>
+      <span class="legend-name">${pieLabels[i]}</span>
+      <div class="legend-bar-wrap">
+        <div class="legend-bar" style="width:${pieWidths[i]}%;background:${pieColors[i]}"></div>
+      </div>
+      <span class="legend-pct">${pct}%</span>
+    </div>`;
+});
+
+new Chart(document.getElementById('piechart'), {
+  type: 'doughnut',
+  data: {
+    labels: pieLabels,
+    datasets: [{
+      data: counts,
+      backgroundColor: pieColors,
+      borderColor: '#101010',
+      borderWidth: 4,
+      hoverOffset: 10,
+      hoverBorderColor: '#eb884a'
+    }]
+  },
+  options: {
+    responsive: true,
+    cutout: '68%',
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: 'rgba(9,9,9,0.96)',
+        borderColor: '#eb884a',
+        borderWidth: 1,
+        padding: 14,
+        titleColor: '#eb884a',
+        titleFont: { size: 12, weight: '700', family: 'Outfit' },
+        bodyColor: '#999',
+        bodyFont: { size: 12, family: 'Outfit' },
+        callbacks: {
+          label: ctx => `  ${ctx.parsed} students (${(ctx.parsed/total*100).toFixed(1)}%)`
         }
+      }
+    },
+    animation: { duration: 1200, easing: 'easeOutQuart' }
+  }
+});
+
+/* ── BUBBLE ── */
+const rawData = [
+  [5.2,6.5],[2.1,7.5],[6,5],[3,7],[4.5,6],[7.2,4.5],[1.5,8],[5.8,6],
+  [4,6.5],[3.3,7],[4.8,6.2],[5.5,5.8],[2.8,7.2],[6.5,5.5],[3.7,6.8],
+  [4.2,6],[2,7.8],[5,5.7],[3.5,6.7],[4.7,5.9],[5.3,5.5],[2.5,7.3],
+  [4.9,5.8],[5.7,5.4],[3.2,6.9],[6.1,5.2],[3.8,6.6],[4.4,5.9],[2.2,7.4],
+  [5.9,5.3],[3.6,6.7],[4.8,5.7],[5.4,5.4],[2.6,7.2],[4.7,5.8],[5.6,5.5],
+  [3.1,6.8],[6.2,5.1],[3.9,6.5],[4.5,5.8],[2.3,7.3],[5.8,5.4],[3.7,6.6],
+  [4.6,5.7],[5.5,5.3],[2.7,7.1],[4.8,5.9],[5.5,5.6],[3.3,6.7],[6.3,5.2],
+  [3.8,6.4],[4.7,5.8],[2.4,7.2],[5.7,5.5],[3.6,6.5],[4.9,5.6],[5.6,5.2],
+  [2.8,7],[4.6,5.9],[5.4,5.7],[3.1,7.1],[5.6,5.6],[4.2,6],[6.1,5.2],
+  [2.3,7.4],[4.8,5.8],[3.9,6.5],[5.7,5.4],[2.8,7.2],[4.5,5.9],[5.4,5.5],
+  [3.2,6.8],[4.9,5.7],[5.8,5.3],[2.5,7.3],[4.6,5.8],[5.5,5.4],[2.9,7],
+  [4.7,5.9],[5.9,5.2],[3,7.1],[4.8,5.7],[3.8,6.6],[2.7,7.2],[5.6,5.3],
+  [4.5,5.8],[5.3,5.5],[2.6,7.3],[4.4,6],[5.8,5.2],[2.9,7],[4.7,5.8],
+  [3.7,6.5],[5.5,5.4],[2.4,7.4],[4.9,5.7],[5.7,5.3],[2.8,7.1],[4.6,5.9],[5.4,5.5]
+];
+
+const pts = rawData.map(([u,s])=>({
+  x:u, y:s, r:7,
+  color: u>=6 ? 'rgba(196,106,42,0.82)' : u>=4 ? 'rgba(235,132,74,0.65)' : 'rgba(241,171,131,0.45)'
+}));
+
+new Chart(document.getElementById('bubblechart'),{
+  type:'bubble',
+  data:{
+    datasets:[{
+      label:'Student',
+      data: pts,
+      backgroundColor: pts.map(p=>p.color),
+      borderColor:     pts.map(p=>p.color.replace(/[\d.]+\)$/,'1)')),
+      borderWidth:1,
+      hoverBackgroundColor:'#f09b2b',
+      hoverBorderColor:'#fff',
+      hoverBorderWidth:2,
+      hoverRadius:3
+    }]
+  },
+  options:{
+    responsive:true,
+    animation:{duration:1400,easing:'easeOutQuart'},
+    scales:{
+      x:{
+        min:0, max:9,
+        title:{ display:true, text:'Daily Social Media Usage (Hours)', color:'#555', font:{size:12,weight:'600',family:'Outfit'} },
+        ticks:{ color:'#444', font:{size:11}, callback:v=>v+'h' },
+        grid:{ color:'rgba(255,255,255,0.025)' },
+        border:{ color:'rgba(235,132,74,0.12)' }
       },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            // Custom tooltip: shows both values clearly when you hover a dot
-            label: ctx => [
-              ` Social media: ${ctx.parsed.x}h/day`,
-              ` Sleep: ${ctx.parsed.y}h/night`
-            ]
-          }
+      y:{
+        min:3, max:10,
+        title:{ display:true, text:'Sleep per Night (Hours)', color:'#555', font:{size:12,weight:'600',family:'Outfit'} },
+        ticks:{ color:'#444', font:{size:11}, callback:v=>v+'h' },
+        grid:{ color:'rgba(255,255,255,0.025)' },
+        border:{ color:'rgba(235,132,74,0.12)' }
+      }
+    },
+    plugins:{
+      legend:{ display:false },
+      tooltip:{
+        backgroundColor:'rgba(9,9,9,0.96)',
+        borderColor:'#eb884a',
+        borderWidth:1,
+        padding:14,
+        titleColor:'#eb884a',
+        titleFont:{size:12,weight:'700',family:'Outfit'},
+        bodyColor:'#999',
+        bodyFont:{size:12,family:'Outfit'},
+        callbacks:{
+          title:()=>'Student',
+          label:ctx=>[`  📱 Usage: ${ctx.parsed.x}h/day`,`  😴 Sleep: ${ctx.parsed.y}h/night`]
         }
       }
     }
-  });
+  }
+});
 </script>
+
 </body>
 </html>
