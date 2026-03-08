@@ -40,7 +40,6 @@
       overflow-x: hidden;
     }
 
-    /* ── BACKGROUND CANVAS ── */
     .bg-wrap {
       position: fixed;
       inset: 0;
@@ -53,7 +52,6 @@
     }
     .floating-shape { position: absolute; pointer-events: none; }
 
-    /* ── NAV ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -83,14 +81,12 @@
       border-bottom: 2px solid var(--orange);
     }
 
-    /* ── LAYOUT ── */
     .page {
       position: relative;
       z-index: 1;
       padding-top: 64px;
     }
 
-    /* ── HERO ── */
     .hero {
       min-height: 340px;
       display: flex;
@@ -164,7 +160,6 @@
       line-height: 1.8;
     }
 
-    /* ── SECTIONS ── */
     .section {
       max-width: 1000px;
       margin: 0 auto;
@@ -211,7 +206,6 @@
       text-align: right;
     }
 
-    /* ── STAT ROW ── */
     .stat-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -251,7 +245,6 @@
       margin-top: 6px;
     }
 
-    /* ── CHART CARDS ── */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -277,7 +270,6 @@
       pointer-events: none;
     }
 
-    /* ── PIE LAYOUT ── */
     .pie-layout {
       display: grid;
       grid-template-columns: 280px 1fr;
@@ -369,7 +361,6 @@
       text-align: right;
     }
 
-    /* ── CALLOUT ── */
     .callout {
       margin-top: 28px;
       padding: 18px 22px;
@@ -383,7 +374,6 @@
       font-style: italic;
     }
 
-    /* ── BUBBLE CHART ── */
     .bubble-wrap { position: relative; }
 
     .bubble-annotation {
@@ -410,7 +400,6 @@
     .annot-dot.light  { background: rgba(241,171,131,0.7); }
     .annot-dot.heavy  { background: var(--orange-deep); }
 
-    /* ── CHART FOOTER ── */
     .chart-foot {
       margin-top: 20px;
       padding-top: 16px;
@@ -420,7 +409,6 @@
       letter-spacing: 0.3px;
     }
 
-    /* ── ANIMATIONS ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(30px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -561,10 +549,9 @@
     </div>
   </div>
 
-</div><!-- /page -->
+</div>
 
 <script>
-/* ── PIE ── */
 const answers = [5,4,3,4,3,4,4,5,5,1,5,4,3,5,5,3,2,5,3,2,4,3,3,3,3,4,4,2,3,4,4,3,3,4,5,3,5,2,4,4,1,3,1,3,5,4,5,4,3,3,4,5,3,3,4,2,3,3,4,1,4,2,4,3,2,3,5,2,4,4,2,5,4,5,4,2,4,4,4,2,4,4,5,3,4,4,3,4,5,4,3,4,4,4,4,5,5,4,4,4,3,5,3,4,2,2,3,1,3,4,3,4,4,2,2,5,5,5,5,4,2,4,4,4,5,4,1,3,5,3,2,4,3,3,2,5,3,3,4,4,3,4,4,3,4,4,4,3,3,4,3,5,3,1,5,2,1,3,3,5,4,3,4,3,3,2,5,2,2,2,5,4,5,4,4,4,3,5,3,3,5,4,3,3,5,3,4,4,5,5,3,3,3,5,4,3,5,3,2,3,3,4,5,4,5,3,4,5,3,2,3,5,5,1,3,4,1,4,3,3,4,4,4,3,3,2,5,5,2,4,2,3,5,2,4,5,2,5,5,3,4,3,3,5,3,5,4,4,2,5,2,5,4,5,4,4,2,4,3,2,4,3,2,4,5,3,4,3,4,3,3,4,5,2,4,5,5,5,4,3,4,2,1,4,4,4,4,3,3,2,3,3,4,4,3,2,2,4,3,2,3,4,4,4,2,4,5,5,3,3,4,5,2,2,5,4,2,4,5,5,3,3,5,3,5,4,5,4,4,5,4,4,5,5,3,4,4,5,4,3,5,3,5,4,3,5,2,5,4,5,4,2,4,2,3,2,4,3,5,4,3,4,4,4,3,5,4,5,4,3,5,5,3,4,4,3,3,4,3,4,5,4,4,3,4,5,5,4,3,5,4,3,5,4,5,4,5,4,2,3,4,2,5,1,1,4,5,3,4,5,4,3,5,2,4,4,2,5,3,4,4,2,4,4,4,4,4,5,1,4,4,5,3,4,3,3,1,4,5,4,4,3,4,4,5,2,3,5,4,3,2,4,1,1,3,2,1,3,3,3,1,2,5,3,3,4,2,3,2,1,2,5,3,4,2,5,3,2,3,2,2];
 const counts = [0,0,0,0,0];
 answers.forEach(v => counts[v-1]++);
@@ -625,7 +612,6 @@ new Chart(document.getElementById('piechart'), {
   }
 });
 
-/* ── BUBBLE ── */
 const rawData = [
   [5.2,6.5],[2.1,7.5],[6,5],[3,7],[4.5,6],[7.2,4.5],[1.5,8],[5.8,6],
   [4,6.5],[3.3,7],[4.8,6.2],[5.5,5.8],[2.8,7.2],[6.5,5.5],[3.7,6.8],
