@@ -40,7 +40,6 @@
       overflow-x: hidden;
     }
 
-    /* ── BACKGROUND ── */
     .bg-wrap {
       position: fixed;
       inset: 0;
@@ -53,7 +52,6 @@
     }
     .floating-shape { position: absolute; pointer-events: none; }
 
-    /* ── NAV ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -83,14 +81,12 @@
       border-bottom: 2px solid var(--orange);
     }
 
-    /* ── LAYOUT ── */
     .page {
       position: relative;
       z-index: 1;
       padding-top: 64px;
     }
 
-    /* ── HERO ── */
     .hero {
       min-height: 340px;
       display: flex;
@@ -164,7 +160,6 @@
       line-height: 1.8;
     }
 
-    /* ── SECTIONS ── */
     .section {
       max-width: 1000px;
       margin: 0 auto;
@@ -211,7 +206,6 @@
       text-align: right;
     }
 
-    /* ── STAT ROW ── */
     .stat-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -250,7 +244,6 @@
       margin-top: 6px;
     }
 
-    /* ── CARDS ── */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -276,7 +269,6 @@
       pointer-events: none;
     }
 
-    /* ── CALLOUT ── */
     .callout {
       margin-top: 28px;
       padding: 18px 22px;
@@ -290,7 +282,6 @@
       font-style: italic;
     }
 
-    /* ── CHART FOOTER ── */
     .chart-foot {
       margin-top: 20px;
       padding-top: 16px;
@@ -299,8 +290,7 @@
       color: #333;
       letter-spacing: 0.3px;
     }
-
-    /* ── COUNTRY HIGHLIGHT STRIP ── */
+    
     .highlight-strip {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -367,7 +357,6 @@
       margin-top: 10px;
     }
 
-    /* ── ANIMATIONS ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(30px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -493,10 +482,10 @@
     </div>
   </div>
 
-</div><!-- /page -->
+</div>
 
 <script>
-/* ── DEPRESSION CHART ── */
+
 const rawData = [
   5,5,4,4,4,3,5,5,5,1,5,3,3,3,5,3,4,2,3,2,2,3,4,4,3,4,4,4,4,5,5,3,2,3,5,4,3,5,2,1,
   3,4,2,5,3,3,1,3,2,1,3,3,5,1,1,5,3,4,5,1,4,4,5,5,1,2,4,4,4,3,1,5,4,2,5,2,5,4,5,5,
@@ -565,7 +554,6 @@ new Chart('depressionChart', {
   }
 });
 
-/* ── COUNTRY ADDICTION CHART ── */
 const data2 = [5.3,7.5,6.7,6.1,4.3,5.1,3.9,7.5,6.4,6.4,3.5,6.7,7.4,6.6,7.4,6.5,6.4,5.8,7.3,5.8,4.3,7.3,7.2,8.6];
 const xlabels = ['Australia','Bangladesh','Canada','China','Denmark','France','Germany','India','Ireland','Italy','Japan','Maldives','Mexico','Nepal','Pakistan','Poland','Russia','South Korea','Spain','Sri Lanka','Switzerland','Turkey','UK','USA'];
 
